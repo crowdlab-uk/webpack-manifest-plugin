@@ -56,9 +56,9 @@ describe('ManifestPlugin', function() {
       webpackCompile({
         entry: path.join(__dirname, './fixtures/file.js')
       }, function(manifest){
-        expect(manifest).toBeDefined();
-        expect(manifest['main.js']).toBeDefined();
-        expect(manifest['main.js']).toEqual('main.js');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks).toBeDefined();
+        expect(assetChunks['main']).toEqual('main.js');
         done();
       });
 
@@ -71,8 +71,9 @@ describe('ManifestPlugin', function() {
           two: path.join(__dirname, './fixtures/file-two.js')
         }
       }, function(manifest){
-        expect(manifest['one.js']).toEqual('one.js');
-        expect(manifest['two.js']).toEqual('two.js');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['one']).toEqual('one.js');
+        expect(assetChunks['two']).toEqual('two.js');
         done();
       });
     });
@@ -86,7 +87,8 @@ describe('ManifestPlugin', function() {
           filename: '[name].[hash].js'
         }
       }, function(manifest, stats){
-        expect(manifest['one.js']).toEqual('one.' + stats.hash + '.js');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['one']).toEqual('one.' + stats.hash + '.js');
         done();
       });
     });
@@ -101,7 +103,8 @@ describe('ManifestPlugin', function() {
           filename: '[name].js'
         }
       }, function(manifest, stats){
-        expect(manifest['one.js.map']).toEqual('one.js.map');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['one.map']).toEqual('one.js.map');
         done();
       });
     });
@@ -116,7 +119,8 @@ describe('ManifestPlugin', function() {
           filename: '[name].[hash].js'
         }
       }, function(manifest, stats){
-        expect(manifest['/app/one.js']).toEqual('/app/one.' + stats.hash + '.js');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['/app/one']).toEqual('/app/one.' + stats.hash + '.js');
         done();
       });
     });
@@ -131,7 +135,8 @@ describe('ManifestPlugin', function() {
           filename: '[name].[hash].js'
         }
       }, function(manifest, stats){
-        expect(manifest['one.js']).toEqual('/app/one.' + stats.hash + '.js');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['one']).toEqual('/app/one.' + stats.hash + '.js');
         done();
       });
     });
@@ -146,8 +151,9 @@ describe('ManifestPlugin', function() {
           filename: '[name].[hash].js'
         }
       }, function(manifest, stats){
-        expect(manifest['/app/one.js']).toEqual('/app/one.' + stats.hash + '.js');
-        expect(manifest['one.js']).toBe(undefined);
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['/app/one']).toEqual('/app/one.' + stats.hash + '.js');
+        expect(assetChunks['one']).toBe(undefined);
         done();
       });
     });
@@ -169,8 +175,9 @@ describe('ManifestPlugin', function() {
           cache: cache
         }
       }], function(manifest){
-        expect(manifest['one.js']).toEqual('one.js');
-        expect(manifest['two.js']).toEqual('two.js');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['one']).toEqual('one.js');
+        expect(assetChunks['two']).toEqual('two.js');
         done();
       });
     });
@@ -201,8 +208,9 @@ describe('ManifestPlugin', function() {
           })
         ]
       }, function(manifest, stats){
-        expect(manifest['wStyles.js']).toEqual('wStyles.js');
-        expect(manifest['wStyles.css']).toEqual('wStyles.css');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['wStyles']).toEqual('wStyles.js');
+        expect(assetChunks['wStyles.css']).toEqual('wStyles.css');
         done();
       });
 
@@ -215,8 +223,9 @@ describe('ManifestPlugin', function() {
         entry: { nameless: path.join(__dirname, './fixtures/nameless.js') },
         output: { filename: '[name].[hash].js' }
       }, function(manifest, stats) {
-        expect(manifest['nameless.js']).toEqual('nameless.'+ stats.hash +'.js');
-        expect(manifest['1.1.'+ stats.hash +'.js']).toEqual('1.1.'+ stats.hash +'.js');
+        var assetChunks = manifest.assetsByChunkName;
+        expect(assetChunks['nameless']).toEqual('nameless.'+ stats.hash +'.js');
+        expect(assetChunks['1.1.'+ stats.hash]).toEqual('1.1.'+ stats.hash +'.js');
         done();
       });
     });

@@ -24,11 +24,14 @@ This will generate a `manifest.json` file in your root output directory with a m
 
 ```json
 {
-  "mods/alpha.js": "mods/alpha.1234567890.js",
-  "mods/omega.js": "mods/omega.0987654321.js"
+  "assetsByChunkName" : {
+    "mods/alpha": "mods/alpha.1234567890.js",
+    "mods/omega": "mods/omega.0987654321.js"
+  }
 }
 ```
 
+This is used in this format to work with webpack-rails, and also support caching, so webpack can do muliple builds.
 
 ## Configuration
 
