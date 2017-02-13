@@ -181,6 +181,17 @@ describe('ManifestPlugin', function() {
         done();
       });
     });
+
+    it('outputs an empty errors array', function(done) {
+      webpackCompile({
+        entry: path.join(__dirname, './fixtures/file.js')
+      }, function(manifest){
+        var errors = manifest.errors;
+        expect(errors).toBeDefined();
+        expect(errors).toEqual([]);
+        done();
+      });
+    });
   });
 
   describe('with ExtractTextPlugin', function(){
